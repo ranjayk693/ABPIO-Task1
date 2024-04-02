@@ -1,0 +1,10 @@
+using Employee_Management_System.Samples;
+using Xunit;
+
+namespace Employee_Management_System.EntityFrameworkCore.Applications;
+
+[Collection(Employee_Management_SystemTestConsts.CollectionDefinitionName)]
+public class EfCoreSampleAppServiceTests : SampleAppServiceTests<Employee_Management_SystemEntityFrameworkCoreTestModule>
+{
+
+}

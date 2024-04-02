@@ -1,0 +1,8 @@
+﻿using Volo.Abp;
+
+namespace Employee_Management_System.EntityFrameworkCore;
+
+public abstract class Employee_Management_SystemEntityFrameworkCoreTestBase : Employee_Management_SystemTestBase<Employee_Management_SystemEntityFrameworkCoreTestModule>
+{
+
+}
