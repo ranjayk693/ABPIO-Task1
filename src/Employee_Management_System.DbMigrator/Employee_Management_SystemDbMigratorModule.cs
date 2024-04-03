@@ -11,4 +11,5 @@ namespace Employee_Management_System.DbMigrator;
     )]
 public class Employee_Management_SystemDbMigratorModule : AbpModule
 {
+
 }

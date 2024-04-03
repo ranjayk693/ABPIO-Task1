@@ -14,8 +14,7 @@ using Volo.Abp.Domain.Repositories;
 
 namespace Employee_Management_System.EmployeeServices
 {
-    //[Authorize(Roles = "admin")]
-    //[Authorize(Roles = "hr")]
+    [Authorize(Roles = "admin,hr")]
     public class EmployeeAppService : CrudAppService<Employee, EmployeeDto, Guid, PagedAndSortedResultRequestDto, CreateEmployeeDto, CreateEmployeeDto>, IEmployeeAppService
     {
         private readonly IRepository<Employee> _repository;
@@ -37,6 +36,8 @@ namespace Employee_Management_System.EmployeeServices
             return _mapper.Map<Employee, EmployeeDto>(employees);
         }
 
+
+        /*Get the lsit of employee by departement id*/
         public async Task<List<EmployeeDto>> GetEmployeesByDepartment(Guid departmentId)
         {
             var employees = await _repository

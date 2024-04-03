@@ -24,6 +24,8 @@ namespace Employee_Management_System.EmployeeServices
             _userManager = userManager;
         }
 
+
+        /*Assign role*/
         [Authorize(Roles = "admin")]
         public async Task<HttpResponseMessage> AssignRole(string email)
         {

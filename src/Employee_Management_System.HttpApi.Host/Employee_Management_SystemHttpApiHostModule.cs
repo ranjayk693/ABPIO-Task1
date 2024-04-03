@@ -29,6 +29,9 @@ using Volo.Abp.Security.Claims;
 using Volo.Abp.Swashbuckle;
 using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.VirtualFileSystem;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace Employee_Management_System;
 
@@ -62,7 +65,46 @@ public class Employee_Management_SystemHttpApiHostModule : AbpModule
     {
         var configuration = context.Services.GetConfiguration();
         var hostingEnvironment = context.Services.GetHostingEnvironment();
+        context.Services.AddAuthorization(options =>
+        {
 
+            //options.AddPolicy("admin",
+            //    authBuilder =>
+            //    {
+            //        authBuilder.RequireRole("Admin");
+            //    });
+            options.AddPolicy("hr",
+                authBuilder =>
+                {
+                    authBuilder.RequireRole("HR");
+                });
+            options.AddPolicy("employee",
+                authBuilder =>
+                {
+                    authBuilder.RequireRole("employee");
+                });
+
+        });
+
+        context.Services.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
+
+       .AddJwtBearer(options =>
+       {
+
+           options.RequireHttpsMetadata = false;
+           options.SaveToken = true;
+           options.TokenValidationParameters = new TokenValidationParameters
+           {
+               ValidateIssuerSigningKey = true,
+               IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(configuration["jwt:key"])),
+               ValidateIssuer = false,
+               ValidateAudience = false
+           };
+       });
         ConfigureAuthentication(context);
         ConfigureBundles();
         ConfigureUrls(configuration);
@@ -107,6 +149,8 @@ public class Employee_Management_SystemHttpApiHostModule : AbpModule
         });
     }
 
+
+
     private void ConfigureVirtualFileSystem(ServiceConfigurationContext context)
     {
         var hostingEnvironment = context.Services.GetHostingEnvironment();
@@ -145,15 +189,43 @@ public class Employee_Management_SystemHttpApiHostModule : AbpModule
             configuration["AuthServer:Authority"]!,
             new Dictionary<string, string>
             {
-                    {"Employee_Management_System", "Employee_Management_System API"}
+            {"Bearer", "Employee_Management_System API"} // Changed the security scheme name to "Bearer"
             },
             options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "Employee_Management_System API", Version = "v1" });
                 options.DocInclusionPredicate((docName, description) => true);
                 options.CustomSchemaIds(type => type.FullName);
+
+                // Add JWT Bearer authentication
+                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer",
+                    BearerFormat = "JWT"
+                });
+
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    new string[] {}
+                }
+                });
             });
+
     }
+
 
     private void ConfigureCors(ServiceConfigurationContext context, IConfiguration configuration)
     {

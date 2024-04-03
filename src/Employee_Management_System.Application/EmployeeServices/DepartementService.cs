@@ -13,8 +13,7 @@ using Volo.Abp.Domain.Repositories;
 
 namespace Employee_Management_System.EmployeeServices
 {
-    //[Authorize(Roles="admin")]
-    //[Authorize(Roles = "hr")]
+    [Authorize(Roles = "admin,hr")]
     public class DepartementService : CrudAppService<Department, DepartementDto, Guid, PagedAndSortedResultRequestDto, CreateDepartementDto, CreateDepartementDto>, IDepartement
     {
         public DepartementService(IRepository<Department, Guid> repository) : base(repository)
