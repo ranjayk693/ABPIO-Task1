@@ -13,8 +13,8 @@ using Volo.Abp.EntityFrameworkCore;
 namespace Employee_Management_System.Migrations
 {
     [DbContext(typeof(Employee_Management_SystemDbContext))]
-    [Migration("20240331120029_THIRD")]
-    partial class THIRD
+    [Migration("20240403054817_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
