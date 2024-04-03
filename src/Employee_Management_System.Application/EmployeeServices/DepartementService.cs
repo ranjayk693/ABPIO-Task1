@@ -1,6 +1,7 @@
 ﻿using Employee_Management_System.Dtos;
 using Employee_Management_System.Employees_Model;
 using Employee_Management_System.Interface;
+using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,16 @@ using Volo.Abp.Domain.Repositories;
 
 namespace Employee_Management_System.EmployeeServices
 {
+    //[Authorize(Roles="admin")]
+    //[Authorize(Roles = "hr")]
     public class DepartementService : CrudAppService<Department, DepartementDto, Guid, PagedAndSortedResultRequestDto, CreateDepartementDto, CreateDepartementDto>, IDepartement
     {
         public DepartementService(IRepository<Department, Guid> repository) : base(repository)
         {
         }
+
+       
+
+      
     }
 }

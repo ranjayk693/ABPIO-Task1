@@ -12,10 +12,9 @@ namespace Employee_Management_System.Employees_Model
     {
       
             public string Name { get; set; }
-            //public int Age { get; set; }
             public Guid DepartmentId { get; set; }
             public Department Department { get; set; }
-            //public decimal Salary { get; set; }
+            
         
 
     }

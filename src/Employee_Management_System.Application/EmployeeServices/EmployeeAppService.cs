@@ -1,4 +1,5 @@
-﻿using Employee_Management_System.Dtos;
+﻿using AutoMapper;
+using Employee_Management_System.Dtos;
 using Employee_Management_System.Employees_Model;
 using Employee_Management_System.Interface;
 using Microsoft.AspNetCore.Authorization;
@@ -13,16 +14,35 @@ using Volo.Abp.Domain.Repositories;
 
 namespace Employee_Management_System.EmployeeServices
 {
-    [Authorize(Roles="HR")]
+    //[Authorize(Roles = "admin")]
+    //[Authorize(Roles = "hr")]
     public class EmployeeAppService : CrudAppService<Employee, EmployeeDto, Guid, PagedAndSortedResultRequestDto, CreateEmployeeDto, CreateEmployeeDto>, IEmployeeAppService
     {
-        public EmployeeAppService(IRepository<Employee, Guid> repository) : base(repository)
+        private readonly IRepository<Employee> _repository;
+        private readonly IMapper _mapper;
+        public EmployeeAppService(IRepository<Employee, Guid> repository, IMapper mapper) : base(repository)
         {
+            _repository = repository;
+            _mapper = mapper;
         }
 
-        public Task<List<EmployeeDto>> SearchEmployeesByName(string searchText)
+        /*Search by Employee_id or Employee_name*/
+        public async Task<EmployeeDto> SearchEmployeesByName(string name)
         {
-            throw new NotImplementedException();
+            var employees = await _repository.FirstOrDefaultAsync(e => e.Name == name);
+            if (employees == null)
+            {
+                throw new ArgumentException($"Employee with name '{name}' not found.");
+            }
+            return _mapper.Map<Employee, EmployeeDto>(employees);
+        }
+
+        public async Task<List<EmployeeDto>> GetEmployeesByDepartment(Guid departmentId)
+        {
+            var employees = await _repository
+                .GetListAsync(e => e.DepartmentId == departmentId);
+
+            return _mapper.Map<List<Employee>, List<EmployeeDto>>(employees);
         }
     }
 }

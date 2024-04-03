@@ -9,6 +9,6 @@ namespace Employee_Management_System.Interface
 {
     public interface IEmployeeAppService:IApplicationService
     { 
-        Task<List<EmployeeDto>> SearchEmployeesByName(string searchText);
+        Task<EmployeeDto> SearchEmployeesByName(string searchByname);
     }
 }

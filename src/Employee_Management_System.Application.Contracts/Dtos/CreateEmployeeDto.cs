@@ -7,8 +7,7 @@ namespace Employee_Management_System.Dtos
     public class CreateEmployeeDto
     {
         public string Name { get; set; }
-        public int Age { get; set; }
         public Guid DepartmentId { get; set; }
-        public decimal Salary { get; set; }
+ 
     }
 }

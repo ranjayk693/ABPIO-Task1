@@ -11,55 +11,41 @@ namespace Employee_Management_System.EmployeeServices
 {
     public class Roles : IdentityUser, ITransientDependency
     {
-        private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly UserManager<IdentityUser> _userManager;
+        //private readonly RoleManager<IdentityRole> _roleManager;
+        //private readonly UserManager<IdentityUser> _userManager;
 
-        public Roles(
-            RoleManager<IdentityRole> roleManager,
-            UserManager<IdentityUser> userManager)
-        {
-            _roleManager = roleManager;
-            _userManager = userManager;
-        }
+        //public Roles(
+        //    RoleManager<IdentityRole> roleManager,
+        //    UserManager<IdentityUser> userManager)
+        //{
+        //    _roleManager = roleManager;
+        //    _userManager = userManager;
+        //}
 
-        public async Task InitializeAsync()
-        {
-            // Check if the "HR" role exists
-            var adminRole=await _roleManager.FindByIdAsync("ADMIN");
-            var hrRole = await _roleManager.FindByNameAsync("HR");
-            var Employee = await _roleManager.FindByNameAsync("Employee");
+        //public async Task InitializeAsync()
+        //{
+        //    // Check if the "HR" role exists
+        //    var adminRole=await _roleManager.FindByIdAsync("ADMIN");
+        //    var hrRole = await _roleManager.FindByNameAsync("HR");
+        //    var Employee = await _roleManager.FindByNameAsync("Employee");
 
 
-            if (adminRole == null)
-            {
-                // Create the "HR" role
-                await _roleManager.CreateAsync(new IdentityRole(Guid.NewGuid(), "ADMIN"));
-            }
+        //    if (adminRole == null)
+        //    {
+        //        // Create the "HR" role
+        //        await _roleManager.CreateAsync(new IdentityRole(Guid.NewGuid(), "ADMIN"));
+        //    }
 
-            if (hrRole == null)
-            {
-                // Create the "HR" role
-                await _roleManager.CreateAsync(new IdentityRole(Guid.NewGuid(), "HR"));
-            }
+        //    if (hrRole == null)
+        //    {
+        //        // Create the "HR" role
+        //        await _roleManager.CreateAsync(new IdentityRole(Guid.NewGuid(), "HR"));
+        //    }
 
-            if(Employee == null)
-            {
-                await _roleManager.CreateAsync(new IdentityRole(Guid.NewGuid(), "Employee"));
-            }
-           
-
-            // Create the admin user
-            //var adminUser = new IdentityUser
-            //{
-            //    UserName = "admin",
-            //    Email = "admin@example.com"
-            //};
-            //var result = await _userManager.CreateAsync(adminUser, "P@ssw0rd");
-            //if (result.Succeeded)
-            //{
-            //    var adminRole = await _roleManager.FindByNameAsync("admin");
-            //    await _userManager.AddToRoleAsync(adminUser, adminRole.Name);
-            //}
-        }
+        //    if(Employee == null)
+        //    {
+        //        await _roleManager.CreateAsync(new IdentityRole(Guid.NewGuid(), "Employee"));
+        //    }
+        //}
     }
 }
