@@ -67,12 +67,6 @@ public class Employee_Management_SystemHttpApiHostModule : AbpModule
         var hostingEnvironment = context.Services.GetHostingEnvironment();
         context.Services.AddAuthorization(options =>
         {
-
-            //options.AddPolicy("admin",
-            //    authBuilder =>
-            //    {
-            //        authBuilder.RequireRole("Admin");
-            //    });
             options.AddPolicy("hr",
                 authBuilder =>
                 {
